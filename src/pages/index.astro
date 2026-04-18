@@ -1,0 +1,149 @@
+---
+// src/pages/index.astro
+import Layout from "../layouts/Layout.astro";
+import PropertyCard from "../components/properties/PropertyCard.astro";
+import { supabase } from "../lib/supabase";
+import { ShieldCheck, Banknote, Clock } from "lucide-astro";
+// 1. Fetch de datos desde Supabase (Se ejecuta en el servidor)
+// Traemos las últimas 6 propiedades ordenadas por fecha de creación
+const { data: propiedades, error } = await supabase
+	.from("propiedades")
+	.select("*")
+	.eq("status", "publicada")
+	.limit(6)
+	.order("created_at", { ascending: false });
+
+if (error) {
+	console.error("Error al cargar propiedades:", error.message);
+}
+---
+
+<Layout title="Inicio | Inmobiliaria">
+	<div
+		class="relative w-full min-h-[120vh] flex items-center justify-center text-center -mt-32 bg-cover bg-center bg-no-repeat"
+		style="background-image: url('/fondo.jpg');"
+	>
+		<div class="absolute top-0 left-0 w-full h-full bg-black opacity-50">
+		</div>
+		<section
+			class="relative z-10 text-center pt-60 pb-20 text-white rounded-xl mt-12 mb-12 mx-4 lg:mx-0"
+		>
+			<h1 class="text-4xl md:text-4xl font-extrabold mb-6 tracking-tight">
+				Encuentra tu espacio ideal
+			</h1>
+			<p class="text-xl text-slate-300 max-w-2xl mx-auto mb-8">
+				Explora las mejores oportunidades de venta y renta en Tabasco.
+			</p>
+			<a
+				href="/propiedades"
+				class="inline-block bg-blue-300 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105"
+			>
+				Ver todo el catálogo
+			</a>
+		</section>
+	</div>
+
+	<section class="py-24 text-white">
+		<div class="container mx-auto px-4">
+			<h2 class="text-2xl md:text-5xl text-center mb-20 tracking-tight">
+				Más Sobre Nosotros
+			</h2>
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
+				<div class="flex flex-col items-center group">
+					<div class="mb-6">
+						<ShieldCheck
+							class="w-28 h-28 text-pink-500"
+							stroke-width="1.5"
+						/>
+					</div>
+					<h3
+						class="text-2xl font-bold mb-4 uppercase tracking-widest text-white"
+					>
+						Seguridad
+					</h3>
+					<p
+						class="text-slate-400 text-lg leading-relaxed max-w-sm mx-auto font-light"
+					>
+						Garantizamos que cada propiedad cuenta con toda la
+						documentación legal en regla para tu total tranquilidad.
+					</p>
+				</div>
+
+				<div class="flex flex-col items-center group">
+					<div class="mb-6">
+						<Banknote
+							class="w-28 h-28 text-pink-500"
+							stroke-width="1.5"
+						/>
+					</div>
+					<h3
+						class="text-2xl font-bold mb-4 uppercase tracking-widest text-white"
+					>
+						Precio
+					</h3>
+					<p
+						class="text-slate-400 text-lg leading-relaxed max-w-sm mx-auto font-light"
+					>
+						Negociamos las mejores condiciones del mercado para
+						asegurar que tu inversión valga cada centavo.
+					</p>
+				</div>
+
+				<div class="flex flex-col items-center group">
+					<div class="mb-6">
+						<Clock
+							class="w-28 h-28 text-pink-500"
+							stroke-width="1.5"
+						/>
+					</div>
+					<h3
+						class="text-2xl font-bold mb-4 uppercase tracking-widest text-white"
+					>
+						A Tiempo
+					</h3>
+					<p
+						class="text-slate-400 text-lg leading-relaxed max-w-sm mx-auto font-light"
+					>
+						Sabemos que tu tiempo es valioso. Nuestros procesos
+						están optimizados para evitar esperas innecesarias.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="container mx-auto px-4 mb-20 pr-16 pl-16">
+		<h2
+			class="text-3xl font-bold text-white mb-8 border-l-4 border-pink-500 pl-4"
+		>
+			Propiedades Recientes
+		</h2>
+
+		{/* Renderizado Condicional: ¿Hay datos? */}
+		{
+			propiedades && propiedades.length > 0 ? (
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{propiedades.map((propiedad) => (
+						<PropertyCard
+							id={propiedad.id}
+							titulo={propiedad.titulo}
+							precio={propiedad.precio}
+							tipo={propiedad.tipo}
+							habitaciones={propiedad.habitaciones}
+							banos={propiedad.banos}
+							imagen_url={propiedad.imagen_url}
+						/>
+					))}
+				</div>
+			) : (
+				<div class="text-center py-20 bg-white rounded-lg border border-dashed border-slate-300">
+					<p class="text-slate-800 text-lg">
+						No se encontraron propiedades disponibles en este
+						momento.
+					</p>
+				</div>
+			)
+		}
+	</section>
+</Layout>

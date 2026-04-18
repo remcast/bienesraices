@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+import RegisterForm from "../components/auth/RegisterForm.jsx";
+---
+
+<Layout title="Crear Cuenta | Inmobiliaria">
+    <div
+        class="relative w-full min-h-screen flex items-center justify-center px-4 pt-20"
+    >
+        {/* Fondo con imagen y overlay */}
+        <div class="absolute inset-0 bg-slate-900 -z-20"></div>
+        <div
+            class="absolute inset-0 bg-cover bg-center opacity-20 -z-10"
+            style="background-image: url('/fondo.jpg');"
+        >
+        </div>
+
+        <div class="w-full max-w-md z-10">
+            <RegisterForm client:load />
+
+            <p class="text-center text-slate-400 mt-8">
+                ¿Ya tienes cuenta? <a
+                    href="/ingresar"
+                    class="text-blue-400 hover:text-blue-300 font-bold hover:underline"
+                    >Inicia Sesión aquí</a
+                >
+            </p>
+        </div>
+    </div>
+</Layout>

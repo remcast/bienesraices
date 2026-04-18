@@ -1,0 +1,17 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import mapaSitioImg from "../assets/mapa-de-sitio.jpeg";
+---
+
+<Layout title="Mapa de Sitio | Inmobiliaria">
+    <div class="pt-32 pb-20 min-h-screen bg-slate-900">
+        <div class="container mx-auto px-4 flex justify-center">
+            <Image
+                src={mapaSitioImg}
+                alt="Mapa de Sitio"
+                class="rounded-2xl shadow-2xl max-w-full h-auto border border-slate-700"
+            />
+        </div>
+    </div>
+</Layout>

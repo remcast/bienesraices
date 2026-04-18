@@ -1,0 +1,23 @@
+---
+// src/pages/propiedades/index.astro
+
+// IMPORTANTE: Verifica si tu layout se llama 'Layout.astro' o 'MainLayout.astro'
+import Layout from "../../layouts/Layout.astro";
+import SearchFilter from "../../components/properties/SearchFilter.jsx";
+---
+
+<Layout title="Buscador de Propiedades | Inmobiliaria">
+    <div class="py-10 container mx-auto px-6">
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-white mb-4">
+                Catálogo de Propiedades
+            </h1>
+            <p class="text-slate-300 max-w-2xl mx-auto">
+                Utiliza nuestros filtros para encontrar la casa ideal por precio
+                o tipo.
+            </p>
+        </header>
+
+        <SearchFilter client:load />
+    </div>
+</Layout>

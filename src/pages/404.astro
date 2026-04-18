@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { AlertTriangle } from "lucide-astro";
+---
+
+<Layout title="Página no encontrada">
+    <div class="flex flex-col items-center justify-center h-[60vh] text-center">
+        <AlertTriangle size={64} className="text-pink-500 mb-6" />
+        <h1 class="text-5xl font-bold text-white mb-4">Error 404</h1>
+        <p class="text-xl text-slate-300 mb-8 max-w-md mx-auto">
+            Parece que esta propiedad no existe, fue vendida o la dirección es
+            incorrecta.
+        </p>
+        <a
+            href="/"
+            class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition transform hover:scale-105"
+        >
+            Volver al Inicio
+        </a>
+    </div>
+</Layout>

@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProfileView from "../components/user/ProfileView.jsx";
+---
+
+<Layout title="Mi Perfil | Inmobiliaria">
+    <div class="pt-32 pb-20 min-h-screen bg-slate-900">
+        <div class="container mx-auto px-4">
+            <ProfileView client:only="react" />
+        </div>
+    </div>
+</Layout>

@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AdminPanelComponent from "../components/user/AdminPanel.jsx";
+
+---
+
+<Layout title="Panel de Administración">
+    <main class="max-w-6xl mx-auto p-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <h1 class="text-3xl font-bold text-white border-l-4 border-blue-500 pl-4">
+                Panel de Administración
+            </h1>
+            <a href="/perfil" class="text-slate-400 hover:text-white text-sm flex items-center gap-2 transition-colors">
+                ← Volver a mi Perfil
+            </a>
+        </div>
+
+        <section class="animate-fade-in">
+            <AdminPanelComponent client:load />
+        </section>
+    </main>
+</Layout>

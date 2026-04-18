@@ -1,0 +1,71 @@
+---
+// src/layouts/MainLayout.astro
+import "../styles/global.css";
+import Navbar from "../components/common/Navbar.astro";
+
+const { title = "Bienes Raíces" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+	</head>
+	<body
+		class="bg-slate-900 text-slate-200 min-h-screen flex flex-col font-sans"
+	>
+		<Navbar />
+
+		<main class="flex-grow w-full relative">
+			<slot />
+		</main>
+
+		<footer class="bg-slate-800 text-white text-center p-4 mt-auto">
+			<p>&copy; 2026 Inmobiliaria</p>
+		</footer>
+
+		<!-- Script para inicializar usuario anónimo -->
+		<script>
+			import { supabase } from '../lib/supabase';
+
+			async function initAnonymousAuth() {
+				try {
+					const { data: { session } } = await supabase.auth.getSession();
+					const existingUser = session?.user ?? null;
+					
+					if (!existingUser) {
+						const { error } = await supabase.auth.signInAnonymously();
+						
+						if (error) {
+							console.error('❌ Error al crear usuario anónimo:', error.message);
+							
+							if (error.message.includes('not enabled')) {
+								console.warn(
+									'⚠️  Los usuarios anónimos no están habilitados en Supabase.\n' +
+									'   Ve a Authentication → Providers y habilita "Allow anonymous sign-ins"'
+								);
+							}
+						}
+					}
+				} catch (error) {
+					if (error?.name === 'AbortError') {
+						return;
+					}
+					console.error('❌ Error en inicialización anónima:', error);
+				}
+			}
+
+			if ('requestIdleCallback' in window) {
+				window.requestIdleCallback(() => {
+					void initAnonymousAuth();
+				}, { timeout: 1500 });
+			} else {
+				window.setTimeout(() => {
+					void initAnonymousAuth();
+				}, 300);
+			}
+		</script>
+	</body>
+</html>
